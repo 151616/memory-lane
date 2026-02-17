@@ -247,7 +247,7 @@ try{
 // Relationship timer
 const countdownLabel = document.getElementById('countdownLabel');
 // Set this to the day your story started (year, monthIndex, day, hour, minute, second)
-const relationshipStartDate = new Date(2023, 1, 14, 0, 0, 0);
+const relationshipStartDate = new Date(2023, 2, 9, 0, 0, 0);
 
 function updateCountdown(){
   const now = Date.now();
@@ -422,6 +422,46 @@ const enterBtn = document.getElementById('enterBtn');
 const leftDoor = document.querySelector('.door.left');
 const rightDoor = document.querySelector('.door.right');
 
+// Add event listener for the yes button
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+
+// Function to handle the no button click
+function handleNoClick() {
+  // Make the yes button larger
+  const currentSize = parseFloat(getComputedStyle(yesBtn).fontSize) || 16;
+  yesBtn.style.fontSize = (currentSize * 1.5) + 'px';
+  
+  // Also increase padding to make it more prominent
+  const currentPadding = parseFloat(getComputedStyle(yesBtn).padding) || 22;
+  yesBtn.style.padding = (currentPadding * 1.5) + 'px ' + (currentPadding * 2) + 'px';
+  
+  // Move the yes button to a random position to make it harder to avoid
+  const maxX = window.innerWidth - yesBtn.offsetWidth;
+  const maxY = window.innerHeight - yesBtn.offsetHeight;
+  const randomX = Math.floor(Math.random() * maxX);
+  const randomY = Math.floor(Math.random() * maxY);
+  
+  yesBtn.style.position = 'fixed';
+  yesBtn.style.left = randomX + 'px';
+  yesBtn.style.top = randomY + 'px';
+  yesBtn.style.zIndex = '100'; // Make sure it's on top
+  
+  // Add a little animation to make it obvious
+  yesBtn.animate([
+    { transform: 'scale(1)' },
+    { transform: 'scale(1.2)' },
+    { transform: 'scale(1)' }
+  ], {
+    duration: 300,
+    iterations: 1
+  });
+}
+
+// Event listeners for the buttons
+if(yesBtn) yesBtn.addEventListener('click', openDoors);
+if(noBtn) noBtn.addEventListener('click', handleNoClick);
+
 function openDoors(){
   if(!intro) return;
   leftDoor.classList.add('open-left');
@@ -439,16 +479,18 @@ function openDoors(){
 }
 
 // Open on Enter key or button click
-if(enterBtn) enterBtn.addEventListener('click', openDoors);
-window.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') openDoors(); });
+// Remove the original enterBtn listener since we're using yesBtn now
+// enterBtn.addEventListener('click', openDoors); // Commented out since we're using yesBtn
+window.addEventListener('keydown', (e)=>{ 
+  if(e.key === 'Enter') {
+    // Only trigger if we're still on the intro screen
+    if(intro && intro.style.display !== 'none') {
+      openDoors();
+    }
+  }
+});
 
 // Auto-open after a short delay if user doesn't interact (optional)
-setTimeout(()=>{
-  // only auto-open if overlay still visible
-  if(intro && intro.style.display !== 'none'){
-    openDoors();
-  }
-}, 7000);
 
 // Initial CSS for particle elements via created stylesheet
 (function injectParticleStyles(){

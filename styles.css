@@ -91,6 +91,33 @@ body{
 .intro-content{position:relative; text-align:center; z-index:6; max-width:640px; padding:20px}
 .intro h2{font-family:'Playfair Display', serif; font-size:28px; margin:0 0 8px; color:#5b3040}
 .intro-sub{margin:0 0 16px; color:rgba(75,40,55,0.85)}
+
+/* Valentine buttons styling */
+.valentine-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn.yes-btn {
+  background: linear-gradient(90deg, #ff9fb6, #ffc6d8);
+  box-shadow: 0 6px 18px rgba(232,159,182,0.18);
+  transition: all 0.3s ease;
+}
+
+.btn.no-btn {
+  background: linear-gradient(90deg, #c4c4c4, #e0e0e0);
+  box-shadow: 0 6px 18px rgba(120,120,120,0.18);
+  transition: all 0.3s ease;
+}
+
+.btn.no-btn:hover {
+  background: linear-gradient(90deg, #b0b0b0, #d0d0d0);
+  transform: translateY(-2px);
+}
+
 .door.open-left{animation:openLeft 1s ease forwards}
 .door.open-right{animation:openRight 1s ease forwards}
 @keyframes openLeft{to{transform:translateX(-100%); opacity:0}}
@@ -142,7 +169,6 @@ body{
 .countdown-item{background:rgba(255,255,255,0.26); padding:8px 12px; border-radius:10px; text-align:center; min-width:64px}
 .countdown-item span{display:block; font-weight:700; font-size:18px}
 .countdown-item small{display:block; font-size:11px; color:rgba(75,40,55,0.75)}
-
 @media (max-width:420px){
   .countdown{gap:8px}
   .countdown-item{min-width:48px; padding:6px 8px}
