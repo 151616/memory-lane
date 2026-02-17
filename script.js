@@ -491,6 +491,11 @@ window.addEventListener('keydown', (e)=>{
 });
 
 // Auto-open after a short delay if user doesn't interact (optional)
+setTimeout(() => {
+  if (intro && intro.style.display !== 'none') {
+    openDoors();
+  }
+}, 7000);
 
 // Initial CSS for particle elements via created stylesheet
 (function injectParticleStyles(){
