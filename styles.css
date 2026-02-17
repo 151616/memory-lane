@@ -131,6 +131,13 @@ body{
 @keyframes blink{50%{opacity:0}100%{opacity:1}}
 
 /* Countdown styles */
+.countdown-label{
+  margin:10px 0 0;
+  font-size:12px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:rgba(75,40,55,0.75);
+}
 .countdown{display:flex; gap:14px; margin-top:12px; align-items:center}
 .countdown-item{background:rgba(255,255,255,0.26); padding:8px 12px; border-radius:10px; text-align:center; min-width:64px}
 .countdown-item span{display:block; font-weight:700; font-size:18px}

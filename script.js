@@ -101,79 +101,6 @@ function fadeOutMusic(duration = 800){
   requestAnimationFrame(tick);
 }
 
-function computeSpeed() {
-  // Determine if currently over an image or caption
-  const memories = document.querySelectorAll('.memory');
-  for (const m of memories) {
-    const photo = m.querySelector('.photo');
-    const caption = m.querySelector('.caption');
-    if (!photo || !caption) continue;
-    const pRect = photo.getBoundingClientRect();
-    const cRect = caption.getBoundingClientRect();
-    // if photo is prominently visible in viewport => fast
-    if (pRect.top < window.innerHeight * 0.5 && pRect.bottom > window.innerHeight * 0.15) return SPEED_FAST;
-    // if caption is in readable area => slow
-    if (cRect.top < window.innerHeight * 0.8 && cRect.bottom > window.innerHeight * 0.25) return SPEED_SLOW;
-  }
-
-// Confetti: spawn simple colored rectangles that fall and rotate
-function spawnConfetti(count){
-  const colors = ['#ff9fb6','#ffd6e8','#ffe1c6','#ffc6d8','#f7c9b6'];
-  for(let i=0;i<count;i++){
-    const el = document.createElement('div');
-    el.className = 'confetti-piece';
-    el.style.background = colors[i % colors.length];
-    el.style.left = (Math.random()*100) + '%';
-    el.style.top = (-Math.random()*10) + 'vh';
-    el.style.width = (8 + Math.random()*12) + 'px';
-    el.style.height = (10 + Math.random()*18) + 'px';
-    el.style.transform = `rotate(${Math.random()*360}deg)`;
-    const dur = 2000 + Math.random()*1800;
-    el.style.animation = `confetti-fall ${dur}ms linear 0ms forwards`;
-    document.body.appendChild(el);
-    // remove after animation
-    setTimeout(()=> el.remove(), dur + 200);
-  }
-}
-
-// Smooth audio fade helpers
-function fadeInMusic(targetVolume = 1.0, duration = 2000){
-  if(!bgMusic) return Promise.reject(new Error('no-audio'));
-  bgMusic.volume = 0;
-  const playPromise = bgMusic.play();
-  const startFade = () => {
-    const start = performance.now();
-    function tick(now){
-      const t = Math.min(1, (now - start)/duration);
-      try{ bgMusic.volume = t * targetVolume; }catch(e){}
-      if(t < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  };
-
-  if (playPromise && typeof playPromise.then === 'function'){
-    return playPromise.then(()=>{ startFade(); }).catch((err)=>{ return Promise.reject(err); });
-  } else {
-    // older browsers may not return a promise
-    try{ startFade(); }catch(e){}
-    return Promise.resolve();
-  }
-}
-
-function fadeOutMusic(duration = 800){
-  if(!bgMusic) return;
-  const startVol = bgMusic.volume || 1;
-  const start = performance.now();
-  function tick(now){
-    const t = Math.min(1, (now - start)/duration);
-    bgMusic.volume = startVol * (1 - t);
-    if(t < 1) requestAnimationFrame(tick); else bgMusic.pause();
-  }
-  requestAnimationFrame(tick);
-}
-  return SPEED_NORMAL;
-}
-
 function step(timestamp) {
   if (!lastTime) lastTime = timestamp;
   const delta = (timestamp - lastTime) / 1000; // seconds
@@ -317,26 +244,15 @@ try{
   }
 } catch(e){}
 
-// Countdown timer (option 1)
-// Set your anniversary/valentine date here (YYYY, M-1, D, H, M, S)
-// Example: next Valentine's Day (month is 0-indexed). Replace with actual target.
-const targetDate = new Date(new Date().getFullYear(), 1, 14, 0, 0, 0);
-// If target already passed this year, move to next year
-if(targetDate.getTime() < Date.now()) targetDate.setFullYear(targetDate.getFullYear() + 1);
+// Relationship timer
+const countdownLabel = document.getElementById('countdownLabel');
+// Set this to the day your story started (year, monthIndex, day, hour, minute, second)
+const relationshipStartDate = new Date(2023, 1, 14, 0, 0, 0);
 
 function updateCountdown(){
   const now = Date.now();
-  const diff = targetDate.getTime() - now;
-  if(diff <= 0){
-    // reached the day
-    document.getElementById('cd-days').textContent = '0';
-    document.getElementById('cd-hours').textContent = '0';
-    document.getElementById('cd-mins').textContent = '0';
-    document.getElementById('cd-secs').textContent = '0';
-    // small celebration: heart boost
-    if (typeof heartBoost === 'function') heartBoost();
-    return;
-  }
+  const diff = Math.max(0, now - relationshipStartDate.getTime());
+  if (countdownLabel) countdownLabel.textContent = 'Together for';
   const secs = Math.floor(diff/1000) % 60;
   const mins = Math.floor(diff/1000/60) % 60;
   const hours = Math.floor(diff/1000/60/60) % 24;
@@ -358,11 +274,11 @@ openMsgBtn.addEventListener('click', () => {
   if (finalMessage.classList.contains('hidden')){
     finalMessage.classList.remove('hidden');
     finalMessage.classList.add('fade-in');
-    openMsgBtn.textContent = 'Close Message';
+    openMsgBtn.textContent = 'Close Letter';
   } else {
     finalMessage.classList.add('hidden');
     finalMessage.classList.remove('fade-in');
-    openMsgBtn.textContent = 'Open Final Message';
+    openMsgBtn.textContent = 'Read My Letter';
   }
 });
 
@@ -393,7 +309,7 @@ function createParticle(i){
   el.className = 'particle';
   // Randomly choose circle or heart
   const isHeart = Math.random() < 0.35;
-  el.innerHTML = isHeart ? '❤' : '';
+  el.innerHTML = isHeart ? '&#10084;' : '';
   const size = rand(8, 26);
   el.style.width = `${size}px`;
   el.style.height = isHeart ? `${size}px` : `${size}px`;
