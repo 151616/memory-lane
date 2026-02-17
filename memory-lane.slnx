@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="memory-lane/memory-lane.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Our Story</title>
+  <!-- Fonts: Playfair Display for headings, Inter for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Floating particles container (background layer) -->
+  <div id="particles" aria-hidden="true"></div>
+
+  <!-- Intro overlay with doors animation -->
+  <div id="intro" class="intro">
+    <div class="doors">
+      <div class="door left"></div>
+      <div class="door right"></div>
+    </div>
+    <div class="intro-content">
+      <h2 id="introGreeting">Yayyy you made it here, good job Arshi!</h2>
+      <p class="intro-sub">Welcome to our little memory lane. Tap Enter or click to open.</p>
+      <button id="enterBtn" class="btn">Enter</button>
+    </div>
+  </div>
+
+  <!-- Main content wrapper -->
+  <main class="container">
+    <!-- Landing section -->
+    <section id="landing" class="section landing">
+      <h1 class="title">Our Story</h1>
+      <!-- Subtitle now uses a span for typed effect -->
+      <p class="subtitle"><span id="typedSubtitle">3 Years Down.</span></p>
+      <!-- Countdown (option 1) - replace targetDate with your anniversary date in script.js -->
+      <div id="countdown" class="countdown" aria-live="polite">
+        <div class="countdown-item"><span id="cd-days">--</span><small>days</small></div>
+        <div class="countdown-item"><span id="cd-hours">--</span><small>hours</small></div>
+        <div class="countdown-item"><span id="cd-mins">--</span><small>mins</small></div>
+        <div class="countdown-item"><span id="cd-secs">--</span><small>secs</small></div>
+      </div>
+      <!-- Music toggle (option 4) -->
+      <div class="controls">
+        <button id="musicToggle" class="btn outline">Play Music</button>
+        <!-- Hidden audio element - replace src with your chosen track (use short unobtrusive music) -->
+        <audio id="bgMusic" loop preload="auto">
+          <source src="assets/music/backgroundaudio.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+      <!-- Button scrolls smoothly to the first memory -->
+      <button id="startBtn" class="btn">Start the Journey</button>
+    </section>
+
+    <!-- Timeline / Memories (vertical scroll) -->
+    <section id="timeline" class="section timeline">
+      <!-- Memory 1 -->
+      <article class="memory">
+        <div class="photo"> 
+          <img src="assets/images/photo1.png" alt="Memory 1">
+        </div>
+        <div class="caption card">
+          <p>Hi Arshiaaaa, I made this for you for valentines I've been working on this for SO LONG you could NOT know the shit I put into ts, but anyways, OMG HAPPY VALENTINESSSSSS this is like what the 3rd valentines together, we're lowk cookingggg, And I just wanna say how grateful I am for all the times that you've stuck with me, and the times when you've hung out with me, especially in the picture above, they make my day so much betterrr, I can't tell you how boring and useless my life would be if you were'nt there for mee, I love you so so much, and omg you look so good in this picture I love looking at your photos they make me smile whenever I feel down, and even though I'm a bitch sometimes, just know that I love you forEVER</p>
+        </div>
+      </article>
+
+      <!-- Memory 2 -->
+      <article class="memory">
+        <div class="photo">
+          <img src="assets/images/photo2.jpeg" alt="Memory 2">
+        </div>
+        <div class="caption card">
+          <p>Anyways I'm so mad at you because how come you're always able to look SO GOOD in EVERY PICTURE but I LOOK LIKE A BUM?! You pmo you should NOT BE ALLOWED TO LOOK THAT GOOD, STAY AT HOME IN A VIEL ALHAMDULLAH or whatever, but no, you're genuinely so pretty and cute and so so SO beautiful I will never in all my lifetimes be able to express how hot you are, you make my blood boil, in a good way tho :)Anyways yeah this is just about how awsome and hot and sexy you are, and I love looking at you and playing with your hair and laughing next to the most prettiest girl I will EVER see. And I hope you like hanging out with me because I would be so sad and cry if the hottest girl in the world didn't like me BUT SHE DOES AND I'M SO TERRIFIED AND LIKE SO HAPPY AND GRATEFUL okay bye next pic</p>
+        </div>
+      </article>
+
+      <!-- Memory 3 -->
+      <article class="memory">
+        <div class="photo">
+          <img src="assets/images/photo3.png" alt="Memory 3">
+        </div>
+        <div class="caption card">
+          <p>=Omg I love this picture like I love our calls you're always so funny and interesting and you make me laugh so much, and you lowk risk all your aura when you talk to me on facetime, like sometimes tho you're always like "heh ladies ladies" knowing full well you're not with anyone but me, but anyways than you for being so interesting on callssss, I love how you look at me and our freaky ones too ;) except some explicit few. But anyways you're genuinely interesting and funny and nice to be around and call, whether it's at 2pm or at 2 am, and i'm sorry for not making the time to call you moree, I've been like super busy these days and I know it's not an excuse, and I PROMISE I PINKIE PROMISE we're gonna talk so much during the summer you'll be sick of me, and you'll beg me to gtfo. but yeah I just wanted to say I love youuuu and thank you for being interesting, </p>
+        </div>
+      </article>
+
+      <!-- Memory 4 -->
+      <article class="memory">
+        <div class="photo">
+          <img src="assets/images/photo4.jpeg" alt="Memory 4">
+        </div>
+        <div class="caption card">
+          <p>I love this picture of us because we look like such a power duo and it's so corny like, "Meet Rocky and Docky, ready to rumble!" typa pose and it's frying me so bad but I genuinely love it, and I want to take more pictures of us and hang out more often, and I wish we were able to hang out more, but trust me when we become adults it'll be like DAILY sleepovers and like UNLIMITED HUGS AND KISSES genuinely bliss I canNOT wait. But like yeah I love spending time with you, even if it's in school where we have to pretend to hate each other just know I LOVE YOU from the bottom of my heart and I wanna smile and laugh together foreverrrr""</p>
+        </div>
+      </article>
+
+      <!-- Memory 5 -->
+      <article class="memory">
+        <div class="photo">
+          <img src="assets/images/photo5.jpeg" alt="Memory 5">
+        </div>
+        <div class="caption card">
+          <p>Caption for memory 5. (Replace this text with your memory description.)</p>
+        </div>
+      </article>
+
+      <!-- Add more memories as needed -->
+    </section>
+
+    <!-- Final section -->
+    <section id="final" class="section final">
+      <h2>To Be Continued...</h2>
+      <button id="openMsgBtn" class="btn outline">Open Final Message</button>
+
+      <!-- Hidden final message - will fade in when opened -->
+      <div id="finalMessage" class="final-message card hidden">
+        <!-- Replace this paragraph with your heartfelt message -->
+        <p>
+          <!-- Placeholder final message -->
+          This is where your heartfelt message will appear. Replace this paragraph with the final message you want to share.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
