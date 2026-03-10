@@ -198,6 +198,7 @@ body{
 .caption{max-width:760px; margin-top:-10px; padding:18px; text-align:center}
 .card{
   background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+  -webkit-backdrop-filter: blur(6px) saturate(1.05);
   backdrop-filter: blur(6px) saturate(1.05);
   border-radius:12px;
   box-shadow:var(--card-shadow);
@@ -250,4 +251,364 @@ body.valentine{
   0%{transform:translateY(-10vh) rotate(0deg); opacity:1}
   80%{opacity:1}
   100%{transform:translateY(110vh) rotate(720deg); opacity:0}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Anniversary Feature — Update Card System
+   Matches the soft romantic pink/beige glass-card aesthetic
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Shared update-card wrapper ──
+   Pairs with the existing .card class for the glass background.
+   Each phase <div> uses class="update-card card". */
+.update-card{
+  width:100%;
+  max-width:580px;
+  padding:32px 28px;
+  text-align:center;
+  margin:0 auto;
+}
+
+/* ── Smooth phase-transition helpers ── */
+.phase-exiting{
+  animation: phaseOut 0.35s ease forwards;
+}
+.phase-entering{
+  animation: phaseIn 0.45s ease forwards;
+}
+@keyframes phaseOut{
+  to{ opacity:0; transform:translateY(-12px) scale(0.97); }
+}
+@keyframes phaseIn{
+  from{ opacity:0; transform:translateY(18px) scale(0.97); }
+  to  { opacity:1; transform:translateY(0)    scale(1);    }
+}
+
+/* ── NEW badge ── */
+.update-badge{
+  display:inline-block;
+  background:linear-gradient(90deg,#ff9fb6,#ffc6d8);
+  color:#5b3040;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:4px 14px;
+  border-radius:999px;
+  margin-bottom:14px;
+}
+/* Green tint for the "UNLOCKED" badge on the quiz */
+.unlocked-badge{
+  background:linear-gradient(90deg,#a8e6bf,#c8f0d4);
+  color:#1a4731;
+}
+
+/* ── Update card header ── */
+.update-header{ margin-bottom:20px; }
+.update-title{
+  font-family:'Playfair Display', serif;
+  font-size:clamp(20px,4vw,26px);
+  color:#5b3040;
+  margin:8px 0 6px;
+}
+.update-subtitle{
+  font-size:14px;
+  color:rgba(75,40,55,0.72);
+  margin:0;
+}
+
+/* ── Patch notes box ── */
+.patch-notes{
+  background:rgba(255,255,255,0.32);
+  border:1px solid rgba(232,159,182,0.28);
+  border-radius:10px;
+  padding:16px 20px;
+  margin:0 0 26px;
+  text-align:left;
+}
+.patch-label{
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.11em;
+  color:rgba(75,40,55,0.6);
+  margin:0 0 10px;
+}
+.patch-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+.patch-list li{
+  font-size:14px;
+  color:rgba(75,40,55,0.88);
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+.patch-check{
+  color:#e89fb6;
+  font-weight:700;
+  font-size:15px;
+}
+
+/* ── Download progress phase ── */
+.dl-icon{
+  font-size:44px;
+  margin-bottom:18px;
+  display:block;
+  animation:dlPulse 1.4s ease-in-out infinite;
+}
+@keyframes dlPulse{
+  0%,100%{ transform:scale(1);   }
+  50%     { transform:scale(1.14); }
+}
+.dl-status{
+  font-size:15px;
+  color:rgba(75,40,55,0.85);
+  min-height:22px;
+  margin:0 0 18px;
+  transition:opacity 0.25s ease;
+}
+.progress-wrap{
+  width:100%;
+  height:10px;
+  background:rgba(232,159,182,0.2);
+  border-radius:999px;
+  overflow:hidden;
+  margin-bottom:8px;
+}
+.progress-fill{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#ff9fb6,#e89fb6,#ffc6d8,#e89fb6);
+  background-size:300% 100%;
+  animation:barShimmer 1.8s linear infinite;
+  transition:width 0.22s linear;
+}
+/* Slightly different hue for the analysis bar */
+.analysis-fill{
+  background:linear-gradient(90deg,#e89fb6,#ffd6e8,#ff9fb6,#ffc6d8);
+  background-size:300% 100%;
+}
+@keyframes barShimmer{
+  0%  { background-position:300% 0; }
+  100%{ background-position:-300% 0; }
+}
+.progress-pct{
+  font-size:13px;
+  font-weight:700;
+  color:#e89fb6;
+  margin:0;
+}
+
+/* ── Update CTA button tweak ── */
+.update-btn{ margin-top:8px; }
+
+/* ── Quiz form ── */
+.quiz-form{
+  text-align:left;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  margin-top:6px;
+}
+.quiz-q{ display:flex; flex-direction:column; gap:10px; }
+.q-label{
+  font-size:15px;
+  font-weight:600;
+  color:#5b3040;
+  margin:0;
+}
+
+/* Button group (single-select options) */
+.btn-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.quiz-opt{
+  padding:8px 16px;
+  border-radius:999px;
+  border:1.5px solid rgba(232,159,182,0.4);
+  background:rgba(255,255,255,0.45);
+  color:#4a2b38;
+  font-size:13px;
+  font-family:'Inter', system-ui, sans-serif;
+  font-weight:500;
+  cursor:pointer;
+  transition:all 0.2s ease;
+}
+.quiz-opt:hover{
+  border-color:#e89fb6;
+  background:rgba(255,182,193,0.15);
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(232,159,182,0.18);
+}
+.quiz-opt.selected{
+  background:linear-gradient(90deg,rgba(232,159,182,0.88),rgba(255,200,220,0.88));
+  border-color:#e89fb6;
+  color:#5b3040;
+  font-weight:700;
+  box-shadow:0 4px 14px rgba(232,159,182,0.28);
+  transform:translateY(-2px);
+}
+
+/* Dropdown select */
+.quiz-select{
+  width:100%;
+  padding:11px 40px 11px 16px;
+  border-radius:12px;
+  border:1.5px solid rgba(232,159,182,0.4);
+  background:rgba(255,255,255,0.55)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23e89fb6' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    no-repeat right 14px center;
+  -webkit-appearance:none;
+  appearance:none;
+  color:#4a2b38;
+  font-size:14px;
+  font-family:'Inter', system-ui, sans-serif;
+  cursor:pointer;
+  transition:border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.quiz-select:focus{
+  outline:none;
+  border-color:#e89fb6;
+  box-shadow:0 0 0 3px rgba(232,159,182,0.18);
+}
+
+/* ── Compatibility result card ── */
+.compat-score{
+  font-family:'Playfair Display', serif;
+  font-size:clamp(28px,6vw,44px);
+  color:#5b3040;
+  margin:0 0 28px;
+  animation:scoreReveal 0.85s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes scoreReveal{
+  from{ opacity:0; transform:scale(0.82) translateY(10px); }
+  to  { opacity:1; transform:scale(1)    translateY(0);    }
+}
+
+/* Stat bars */
+.result-stats{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-bottom:28px;
+  text-align:left;
+}
+.stat-row{
+  display:grid;
+  grid-template-columns:90px 1fr auto;
+  align-items:center;
+  gap:12px;
+}
+.stat-label{
+  font-size:13px;
+  font-weight:600;
+  color:rgba(75,40,55,0.78);
+  white-space:nowrap;
+}
+.stat-track{
+  height:8px;
+  background:rgba(232,159,182,0.18);
+  border-radius:999px;
+  overflow:hidden;
+  min-width:0;
+}
+.stat-fill{
+  height:100%;
+  width:0%;                  /* animated to data-pct via JS */
+  border-radius:999px;
+  background:linear-gradient(90deg,#ff9fb6,#e89fb6);
+  transition:width 1.3s cubic-bezier(0.22,1,0.36,1);
+}
+.stat-unlimited{
+  background:linear-gradient(90deg,#ff9fb6,#ffc6d8,#e89fb6,#ffd6e8);
+  background-size:300% 100%;
+  animation:barShimmer 2.2s linear infinite;
+}
+.stat-val{
+  font-size:12px;
+  font-weight:600;
+  color:#e89fb6;
+  white-space:nowrap;
+  text-align:right;
+}
+
+/* Romantic italic quote */
+.result-message{
+  font-family:'Playfair Display', serif;
+  font-size:clamp(15px,3vw,19px);
+  color:#5b3040;
+  font-style:italic;
+  line-height:1.65;
+  margin:0 0 26px;
+  padding:18px 22px;
+  background:rgba(255,255,255,0.32);
+  border-radius:12px;
+  border-left:3px solid #e89fb6;
+}
+
+/* ── Detailed results phase ── */
+.detail-photo{ margin-bottom:22px; }
+
+/* Actual anniversary photo */
+.anniversary-photo{
+  width:100%;
+  max-width:520px;
+  display:block;
+  margin:0 auto;
+  border-radius:14px;
+  box-shadow:var(--card-shadow);
+  object-fit:cover;
+}
+
+.photo-placeholder{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+  aspect-ratio:4/3;
+  background:rgba(255,214,232,0.22);
+  border:2px dashed rgba(232,159,182,0.45);
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-size:36px;
+  color:rgba(75,40,55,0.45);
+  gap:10px;
+}
+.photo-placeholder small{
+  font-size:13px;
+  font-family:'Inter', system-ui, sans-serif;
+  display:block;
+}
+.detail-msg{
+  padding:22px;
+  background:rgba(255,255,255,0.42);
+  border-radius:12px;
+  text-align:left;
+}
+.detail-msg p{
+  font-size:15px;
+  line-height:1.8;
+  color:rgba(75,40,55,0.9);
+  margin:0;
+}
+
+/* ── Responsive tweaks ── */
+@media(max-width:520px){
+  .update-card{ padding:22px 16px; }
+  .stat-row{ grid-template-columns:72px 1fr auto; gap:8px; }
+  .stat-label{ font-size:12px; }
+  .stat-val{ font-size:11px; }
+  .quiz-opt{ font-size:12px; padding:7px 12px; }
+  .result-message{ padding:14px 16px; }
 }

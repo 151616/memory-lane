@@ -267,20 +267,22 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// Reveal final message
+// Reveal final message (guarded — button removed when anniversary feature is active)
 const openMsgBtn = document.getElementById('openMsgBtn');
 const finalMessage = document.getElementById('finalMessage');
-openMsgBtn.addEventListener('click', () => {
-  if (finalMessage.classList.contains('hidden')){
-    finalMessage.classList.remove('hidden');
-    finalMessage.classList.add('fade-in');
-    openMsgBtn.textContent = 'Close Letter';
-  } else {
-    finalMessage.classList.add('hidden');
-    finalMessage.classList.remove('fade-in');
-    openMsgBtn.textContent = 'Read My Letter';
-  }
-});
+if (openMsgBtn && finalMessage) {
+  openMsgBtn.addEventListener('click', () => {
+    if (finalMessage.classList.contains('hidden')){
+      finalMessage.classList.remove('hidden');
+      finalMessage.classList.add('fade-in');
+      openMsgBtn.textContent = 'Close Letter';
+    } else {
+      finalMessage.classList.add('hidden');
+      finalMessage.classList.remove('fade-in');
+      openMsgBtn.textContent = 'Read My Letter';
+    }
+  });
+}
 
 // Fade-in memory sections when scrolled into view
 const observer = new IntersectionObserver((entries) => {
@@ -504,8 +506,250 @@ window.addEventListener('keydown', (e)=>{
   document.head.appendChild(style);
 })();
 
-// Accessibility: enable keyboard to open final message
-openMsgBtn.addEventListener('keyup', (e)=>{ if(e.key === 'Enter') openMsgBtn.click() });
+// Accessibility: enable keyboard to open final message (guarded)
+if (openMsgBtn) openMsgBtn.addEventListener('keyup', (e)=>{ if(e.key === 'Enter') openMsgBtn.click() });
 
 // Notes for maintainers: replace placeholder images and texts in index.html
+
+// ═══════════════════════════════════════════════════════════════
+// ANNIVERSARY FEATURE — Update Card / Quiz / Compatibility Engine
+// All vanilla JS, no frameworks. Matches existing site aesthetic.
+// ═══════════════════════════════════════════════════════════════
+
+(function anniversaryFeature() {
+
+  // ── Element references ──────────────────────────────────────
+  const updateCard    = document.getElementById('updateCard');
+  const downloadPhase = document.getElementById('downloadPhase');
+  const quizPhase     = document.getElementById('quizPhase');
+  const analysisPhase = document.getElementById('analysisPhase');
+  const resultPhase   = document.getElementById('resultPhase');
+  const detailedPhase = document.getElementById('detailedPhase');
+  const downloadBtn   = document.getElementById('downloadBtn');
+  const runCompatBtn  = document.getElementById('runCompatBtn');
+  const viewResultsBtn= document.getElementById('viewResultsBtn');
+
+  // Bail out safely if the anniversary section isn't on the page
+  if (!updateCard) return;
+
+  // ── Status message sets ──────────────────────────────────────
+  const downloadMessages = [
+    'Downloading update package...',
+    'Installing anniversary patch...',
+    'Verifying shared memories...',
+    'Syncing inside jokes...',
+    'Calibrating love algorithm...',
+    'Finalizing compatibility engine...',
+    'Almost there... 💕',
+  ];
+
+  const analysisMessages = [
+    'Collecting user data...',
+    'Scanning shared memories...',
+    'Calculating emotional resonance...',
+    'Cross-referencing inside jokes...',
+    'Running long-term happiness simulation...',
+    'Results are in... 💖',
+  ];
+
+  // ── Utility: smooth phase transition ────────────────────────
+  // Fades out `fromEl`, then fades in `toEl`, then fires `onDone`.
+  function switchPhase(fromEl, toEl, onDone) {
+    // Step 1 – fade out current panel
+    fromEl.style.transition = 'opacity 0.32s ease, transform 0.32s ease';
+    fromEl.style.opacity    = '0';
+    fromEl.style.transform  = 'translateY(-12px) scale(0.97)';
+
+    setTimeout(function() {
+      // Step 2 – hide it (display:none via existing .hidden class)
+      fromEl.classList.add('hidden');
+      fromEl.style.cssText = ''; // clear inline styles
+
+      // Step 3 – prepare the next panel off-screen
+      toEl.classList.remove('hidden');
+      toEl.style.opacity   = '0';
+      toEl.style.transform = 'translateY(18px) scale(0.97)';
+      toEl.style.transition= 'none';
+
+      // Scroll card into view before revealing
+      toEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Step 4 – trigger reflow then animate in
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          toEl.style.transition= 'opacity 0.42s ease, transform 0.42s ease';
+          toEl.style.opacity   = '1';
+          toEl.style.transform = 'translateY(0) scale(1)';
+
+          setTimeout(function() {
+            toEl.style.cssText = ''; // tidy up inline styles
+            if (typeof onDone === 'function') onDone();
+          }, 430);
+        });
+      });
+    }, 340);
+  }
+
+  // ── Utility: animated progress bar ──────────────────────────
+  // Drives the fill element from 0 → 100 % over `totalMs` ms,
+  // cycling through `messages` at even intervals.
+  function animateProgress(fillEl, pctEl, statusEl, messages, totalMs, onDone) {
+    var startTime    = null;
+    var msgInterval  = totalMs / messages.length;
+    var lastMsgIndex = -1;
+
+    // Crossfade the status text
+    function showMessage(idx) {
+      if (idx === lastMsgIndex || idx >= messages.length) return;
+      lastMsgIndex = idx;
+      statusEl.style.opacity = '0';
+      setTimeout(function() {
+        statusEl.textContent = messages[idx];
+        statusEl.style.transition = 'opacity 0.25s ease';
+        statusEl.style.opacity = '1';
+      }, 180);
+    }
+
+    showMessage(0); // show first message immediately
+
+    function tick(ts) {
+      if (!startTime) startTime = ts;
+      var elapsed = ts - startTime;
+
+      // Eased percentage: linear for first 90 %, gentle slowdown near 100 %
+      var raw = Math.min(1, elapsed / totalMs);
+      var pct = raw < 0.9
+        ? raw / 0.9 * 90                          // linear phase
+        : 90 + ((raw - 0.9) / 0.1) * 10;         // final deceleration
+
+      fillEl.style.width = pct.toFixed(1) + '%';
+      if (pctEl) pctEl.textContent = Math.round(pct) + '%';
+
+      // Cycle messages at even time intervals
+      var msgIdx = Math.min(messages.length - 1, Math.floor(elapsed / msgInterval));
+      showMessage(msgIdx);
+
+      if (elapsed < totalMs) {
+        requestAnimationFrame(tick);
+      } else {
+        // Snap to 100 % and fire callback after short pause
+        fillEl.style.width = '100%';
+        if (pctEl) pctEl.textContent = '100%';
+        showMessage(messages.length - 1);
+        setTimeout(onDone, 650);
+      }
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  // ── Quiz answer store ────────────────────────────────────────
+  // Answers are stored but don't affect the result (always 100 %).
+  var quizAnswers = {};
+
+  // Single-select button groups
+  document.querySelectorAll('.btn-group').forEach(function(group) {
+    group.addEventListener('click', function(e) {
+      var btn = e.target.closest('.quiz-opt');
+      if (!btn) return;
+      // Deselect all siblings in this group
+      group.querySelectorAll('.quiz-opt').forEach(function(b) {
+        b.classList.remove('selected');
+      });
+      btn.classList.add('selected');
+      quizAnswers[group.dataset.q] = btn.dataset.val;
+    });
+  });
+
+  // Dropdown selects
+  document.querySelectorAll('.quiz-select').forEach(function(sel) {
+    sel.addEventListener('change', function() {
+      quizAnswers[sel.dataset.q] = sel.value;
+    });
+  });
+
+  // ── PHASE 1 → 2: "Download Update" clicked ──────────────────
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function() {
+      switchPhase(updateCard, downloadPhase, function() {
+        var fillEl   = document.getElementById('progressBar');
+        var pctEl    = document.getElementById('progressPct');
+        var statusEl = document.getElementById('downloadStatus');
+
+        // 4.5 second fake download
+        animateProgress(fillEl, pctEl, statusEl, downloadMessages, 4500, function() {
+          // → reveal quiz
+          switchPhase(downloadPhase, quizPhase, function() {
+            // Celebrate the unlock with a light confetti burst
+            if (typeof spawnConfetti === 'function') spawnConfetti(18);
+          });
+        });
+      });
+    });
+  }
+
+  // ── PHASE 3 → 4: "Run Compatibility Test" clicked ───────────
+  if (runCompatBtn) {
+    runCompatBtn.addEventListener('click', function() {
+      switchPhase(quizPhase, analysisPhase, function() {
+        var fillEl   = document.getElementById('analysisBar');
+        var pctEl    = document.getElementById('analysisPct');
+        var statusEl = document.getElementById('analysisStatus');
+
+        // 3.8 second fake analysis
+        animateProgress(fillEl, pctEl, statusEl, analysisMessages, 3800, function() {
+          // → reveal result card
+          switchPhase(analysisPhase, resultPhase, function() {
+            // Animate stat bars from 0 → their target % after a short delay
+            setTimeout(function() {
+              document.querySelectorAll('.stat-fill').forEach(function(bar) {
+                bar.style.width = (bar.dataset.pct || '100') + '%';
+              });
+            }, 150);
+
+            // Celebration: hearts + confetti
+            if (typeof heartBoost    === 'function') heartBoost();
+            if (typeof spawnConfetti === 'function') spawnConfetti(34);
+          });
+        });
+      });
+    });
+  }
+
+  // ── PHASE 5 → 6: "View Detailed Results" clicked ────────────
+  // The result card stays visible; the detailed section slides in below it.
+  if (viewResultsBtn) {
+    viewResultsBtn.addEventListener('click', function() {
+      // Prepare off-screen
+      detailedPhase.classList.remove('hidden');
+      detailedPhase.style.opacity   = '0';
+      detailedPhase.style.transform = 'translateY(22px)';
+      detailedPhase.style.transition= 'none';
+
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          detailedPhase.style.transition= 'opacity 0.52s ease, transform 0.52s ease';
+          detailedPhase.style.opacity   = '1';
+          detailedPhase.style.transform = 'translateY(0)';
+
+          // Scroll to detailed section once animation starts
+          setTimeout(function() {
+            detailedPhase.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 120);
+
+          // Clean up inline styles after animation
+          setTimeout(function() {
+            detailedPhase.style.cssText = '';
+          }, 560);
+        });
+      });
+
+      // Swap button text so it can't be double-clicked
+      viewResultsBtn.textContent = '💖 You already know';
+      viewResultsBtn.disabled = true;
+      viewResultsBtn.style.opacity = '0.6';
+    });
+  }
+
+})(); // end anniversaryFeature IIFE
 

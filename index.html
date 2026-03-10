@@ -113,12 +113,194 @@
       <!-- Add more memories as needed -->
     </section>
 
-    <!-- Final section -->
+    <!-- Final section — Anniversary Update Feature -->
     <section id="final" class="section final">
       <h2>To Be Continued...</h2>
-      <button id="openMsgBtn" class="btn outline">Til our Anniversary ;)</button>
 
-      <!-- Hidden final message - removed as requested -->
+      <!-- ── PHASE 1: Software update card ── -->
+      <div id="updateCard" class="update-card card">
+        <div class="update-header">
+          <span class="update-badge">✦ NEW</span>
+          <h3 class="update-title">New Update Available 💖</h3>
+          <p class="update-subtitle">Our Story v2.0 — Anniversary Edition</p>
+        </div>
+        <div class="patch-notes">
+          <p class="patch-label">📋 Patch Notes</p>
+          <ul class="patch-list">
+            <li><span class="patch-check">✓</span> Improved memory rendering</li>
+            <li><span class="patch-check">✓</span> Added compatibility engine</li>
+            <li><span class="patch-check">✓</span> Fixed missing hugs bug</li>
+            <li><span class="patch-check">✓</span> Enhanced future togetherness calculations</li>
+          </ul>
+        </div>
+        <button id="downloadBtn" class="btn update-btn">Download Update</button>
+      </div>
+
+      <!-- ── PHASE 2: Fake download / install progress ── -->
+      <div id="downloadPhase" class="update-card card hidden" aria-live="polite">
+        <div class="dl-icon">⬇️</div>
+        <p id="downloadStatus" class="dl-status">Preparing download...</p>
+        <div class="progress-wrap">
+          <div id="progressBar" class="progress-fill"></div>
+        </div>
+        <p id="progressPct" class="progress-pct">0%</p>
+      </div>
+
+      <!-- ── PHASE 3: Compatibility quiz (revealed after install) ── -->
+      <div id="quizPhase" class="update-card card hidden">
+        <div class="update-header">
+          <span class="update-badge unlocked-badge">✦ UNLOCKED</span>
+          <h3 class="update-title">Compatibility Engine 💘</h3>
+          <p class="update-subtitle">Answer a few questions to run the test</p>
+        </div>
+        <div class="quiz-form">
+
+          <!-- Q1: Favorite color -->
+          <div class="quiz-q">
+            <p class="q-label">1. What's your favorite color?</p>
+            <div class="btn-group" data-q="color">
+              <button type="button" class="quiz-opt" data-val="Pink">Pink 🌸</button>
+              <button type="button" class="quiz-opt" data-val="Blue">Blue 💙</button>
+              <button type="button" class="quiz-opt" data-val="Purple">Purple 💜</button>
+              <button type="button" class="quiz-opt" data-val="Other">Other ✨</button>
+            </div>
+          </div>
+
+          <!-- Q2: Favorite food -->
+          <div class="quiz-q">
+            <p class="q-label">2. Favorite food?</p>
+            <select class="quiz-select" data-q="food" aria-label="Favorite food">
+              <option value="">— Choose one —</option>
+              <option value="Pizza">Pizza 🍕</option>
+              <option value="Sushi">Sushi 🍣</option>
+              <option value="Chicken Tenders">Chicken Tenders 🍗</option>
+              <option value="Pasta">Pasta 🍝</option>
+              <option value="Shawarma">Shawarma 🌯</option>
+            </select>
+          </div>
+
+          <!-- Q3: Favorite place -->
+          <div class="quiz-q">
+            <p class="q-label">3. Favorite place to hang out?</p>
+            <div class="btn-group" data-q="place">
+              <button type="button" class="quiz-opt" data-val="Home">Home 🏠</button>
+              <button type="button" class="quiz-opt" data-val="Mall">Mall 🛍️</button>
+              <button type="button" class="quiz-opt" data-val="Café">Café ☕</button>
+              <button type="button" class="quiz-opt" data-val="Anywhere">Anywhere 💕</button>
+            </div>
+          </div>
+
+          <!-- Q4: Favorite activity -->
+          <div class="quiz-q">
+            <p class="q-label">4. Favorite activity together?</p>
+            <div class="btn-group" data-q="activity">
+              <button type="button" class="quiz-opt" data-val="Movies">Watching movies 🎬</button>
+              <button type="button" class="quiz-opt" data-val="Going out">Going out 🌙</button>
+              <button type="button" class="quiz-opt" data-val="FaceTime">FaceTime calls 📱</button>
+              <button type="button" class="quiz-opt" data-val="Existing">Just existing 💭</button>
+            </div>
+          </div>
+
+          <!-- Q5: Favorite movie genre -->
+          <div class="quiz-q">
+            <p class="q-label">5. Favorite movie genre?</p>
+            <select class="quiz-select" data-q="genre" aria-label="Favorite movie genre">
+              <option value="">— Choose one —</option>
+              <option value="Romance">Romance 💞</option>
+              <option value="Comedy">Comedy 😂</option>
+              <option value="Horror">Horror 👻</option>
+              <option value="Action">Action 💥</option>
+              <option value="Anything">Anything with you 🥰</option>
+            </select>
+          </div>
+
+          <!-- Q6: Better texter -->
+          <div class="quiz-q">
+            <p class="q-label">6. Who's the better texter?</p>
+            <div class="btn-group" data-q="texter">
+              <button type="button" class="quiz-opt" data-val="Me">Me 😇</button>
+              <button type="button" class="quiz-opt" data-val="You">You 😅</button>
+              <button type="button" class="quiz-opt" data-val="Both">We're both bad 💀</button>
+            </div>
+          </div>
+
+          <!-- Q7: Best date -->
+          <div class="quiz-q">
+            <p class="q-label">7. Best kind of date?</p>
+            <div class="btn-group" data-q="date">
+              <button type="button" class="quiz-opt" data-val="Home">Chill at home 🛋️</button>
+              <button type="button" class="quiz-opt" data-val="Food">Food date 🍜</button>
+              <button type="button" class="quiz-opt" data-val="Adventure">Adventure 🗺️</button>
+              <button type="button" class="quiz-opt" data-val="Surprise">Surprise me 🎁</button>
+            </div>
+          </div>
+
+          <!-- Q8: Who overthinks -->
+          <div class="quiz-q">
+            <p class="q-label">8. Who overthinks more?</p>
+            <div class="btn-group" data-q="overthink">
+              <button type="button" class="quiz-opt" data-val="Me">Definitely me 😬</button>
+              <button type="button" class="quiz-opt" data-val="You">Definitely you 😂</button>
+              <button type="button" class="quiz-opt" data-val="Both">Both equally 🫠</button>
+            </div>
+          </div>
+
+          <button type="button" id="runCompatBtn" class="btn update-btn">Run Compatibility Test 💻</button>
+        </div>
+      </div>
+
+      <!-- ── PHASE 4: Analysis animation ── -->
+      <div id="analysisPhase" class="update-card card hidden" aria-live="polite">
+        <div class="dl-icon">🔬</div>
+        <p id="analysisStatus" class="dl-status">Collecting user data...</p>
+        <div class="progress-wrap">
+          <div id="analysisBar" class="progress-fill analysis-fill"></div>
+        </div>
+        <p id="analysisPct" class="progress-pct">0%</p>
+      </div>
+
+      <!-- ── PHASE 5: Compatibility result card ── -->
+      <div id="resultPhase" class="update-card card hidden">
+        <h3 class="compat-score">Compatibility: 100%</h3>
+        <div class="result-stats">
+          <div class="stat-row">
+            <span class="stat-label">Love</span>
+            <div class="stat-track"><div class="stat-fill" data-pct="100"></div></div>
+            <span class="stat-val">Infinty%</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Patience</span>
+            <div class="stat-track"><div class="stat-fill" data-pct="100"></div></div>
+            <span class="stat-val">Humongous%</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Laughter</span>
+            <div class="stat-track"><div class="stat-fill stat-unlimited" data-pct="100"></div></div>
+            <span class="stat-val">Forever%</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Future</span>
+            <div class="stat-track"><div class="stat-fill stat-unlimited" data-pct="100"></div></div>
+            <span class="stat-val">FOREVERR?!?!?!?!?!?</span>
+          </div>
+        </div>
+        <p class="result-message">"After analyzing every possible outcome, I'd still choose you."</p>
+        <button id="viewResultsBtn" class="btn update-btn">View Detailed Results 💌</button>
+      </div>
+
+      <!-- ── PHASE 6: Detailed results (revealed in-place below result card) ── -->
+      <div id="detailedPhase" class="update-card card hidden">
+        <div class="detail-photo">
+          <img src="assets/images/photo_anniversary.webp"
+               alt="Our anniversary photo"
+               class="anniversary-photo">
+        </div>
+        <div class="detail-msg">
+          <p>HIIIIII HAPPY 3rd ANNIVERSARY OH MY GOD I LOVE YOU SOSOSOSOSOSOSO MUCH AND I"M SOSOSOSOSOSOSOSO GRATEFUL FOR YOU like ik we been like not so tuff and stuff but I want you to know that you mean EVERYTHING to me like EVERYTHING like ykwim like EVERYTHINGGGGGGGGGGG like you are my WORLD AND THE JOY IN MY LIFE except when ur weird cuz ur a weird lil monkey but whatever whatever I CAN'T BELIEVE WE'VE BEEN TOGETHER FOR 3 WHOLE YEARS THAT'S LIKE A TODDLER WTF let's do a grown man and stay til 20 or yk forever up to you ty shi but yeah I LOVE YOU SO MUCHHHHH thanks for everythingggggg i love the way you walk and you talk and your eyes and ur so hot and cute and amazing and beautiful it's acc scary cuz wtf i need to lock you up and keep you minex but i'll just fight them all of trust me dwbi and I'll always be there for you no matter what, so just know that you mean so so so so so much to me and ik i'm like a bad bf but it's okay cuz u chose me lololol okay yeah it's like 2 am i'm gonna sleep now BYEEEEEEEE MWAH MWAH MWAH I LOVE YOUU TO THE MOON AND BACKKKK!!!!!!! HAPPY THIRD ANNIVERSARY DARLINGGGGG
+          </p>
+        </div>
+      </div>
+
     </section>
 
   </main>
